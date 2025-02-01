@@ -1,0 +1,23 @@
+# Python bytecode files
+*.pyc
+*.pyo
+__pycache__/
+
+# Virtual environments
+venv/
+env/
+
+# .env files (don't want to commit sensitive info like API keys or passwords)
+.env
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# IDE files (e.g., VS Code or PyCharm)
+.vscode/
+.idea/
+
+# OS-specific files (e.g., Mac, Windows)
+.DS_Store
+Thumbs.db
+heart.csv

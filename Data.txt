@@ -1,0 +1,7 @@
+conn = psycopg2.connect(
+        dbname="heart_disease",  # Replace with your database name
+        user="postgres",    # Replace with your PostgreSQL username
+        password="1234",  # Replace with your password
+        host="localhost",        # Host (localhost for local DB)
+        port="5432"              # Default PostgreSQL port
+    )
