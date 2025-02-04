@@ -1,70 +1,95 @@
 import os
 import pandas as pd
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from sqlalchemy import create_engine
-import psycopg2
-from dotenv import load_dotenv
+from sklearn.preprocessing import LabelEncoder
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-# Step 1: Load environment variables from a .env file
-load_dotenv()
-
-# Step 2: Retrieve database credentials from the environment variables
-db_username = os.getenv('DB_USERNAME')
-db_password = os.getenv('DB_PASSWORD')
-db_port = os.getenv('DB_PORT')
-db_name = os.getenv('DB_NAME')
-db_host = os.getenv('DB_HOST')
-
-# Step 3: Establish a connection to PostgreSQL using psycopg2
-try:
-    conn = psycopg2.connect(
-        dbname=db_name,
-        user=db_username,
-        password=db_password,
-        host=db_host,
-        port=db_port
-    )
-    print("Database connection successful!")
-except Exception as e:
-    print("Error while connecting to PostgreSQL", e)
-
-# Step 4: Load the CSV data into a pandas DataFrame
+# Step 1: Load the CSV data into a pandas DataFrame
 df = pd.read_csv("heart.csv")
 
-# Step 5: Remove duplicates
+# Step 2: Remove duplicates
 df = df.drop_duplicates()
 
-# Step 6: Handle missing values (filling with the mean for numerical columns)
+# Step 3: Handle missing values (filling with the mean for numerical columns)
 df['Age'] = df['Age'].fillna(df['Age'].mean())
 df['Cholesterol'] = df['Cholesterol'].fillna(df['Cholesterol'].mean())
 df['RestingBP'] = df['RestingBP'].fillna(df['RestingBP'].mean())
+df['MaxHR'] = df['MaxHR'].fillna(df['MaxHR'].mean())  # Added missing handling for 'MaxHR'
 
-# Step 7: Convert categorical variables to correct data types if needed
-df['Sex'] = df['Sex'].astype('category')  # Convert 'Sex' column to categorical type
+# Step 4: Convert categorical variables to numeric using Label Encoding
+label_encoder = LabelEncoder()
+
+df['Sex'] = label_encoder.fit_transform(df['Sex'])  # Convert 'Sex' column to numeric (0, 1)
 df['ExerciseAngina'] = df['ExerciseAngina'].map({'Y': 1, 'N': 0})  # Map 'Y'/'N' to 1/0
-df['RestingECG'] = df['RestingECG'].astype('category')  # Convert 'RestingECG' to categorical
-df['ST_Slope'] = df['ST_Slope'].astype('category')  # Convert 'ST_Slope' to categorical
+df['RestingECG'] = label_encoder.fit_transform(df['RestingECG'])  # Convert 'RestingECG' to numeric
+df['ST_Slope'] = label_encoder.fit_transform(df['ST_Slope'])  # Convert 'ST_Slope' to numeric
 
-# Step 8: Handle outliers (e.g., cap 'RestingBP' values above 200)
+# Step 5: Handle outliers (e.g., cap 'RestingBP' values above 200)
 df['RestingBP'] = df['RestingBP'].apply(lambda x: 200 if x > 200 else x)
 
-# Step 9: Normalize the 'Cholesterol' column (to ensure higher cholesterol gives higher positive correlation)
-scaler = MinMaxScaler()
-df[['Age']] = scaler.fit_transform(df[['Age']])  # Normalize 'Age'
-df[['Cholesterol']] = scaler.fit_transform(df[['Cholesterol']])  # Normalize 'Cholesterol'
+# Step 6: Calculate correlation matrix
+numerical_df = df.select_dtypes(include=['float64', 'int64'])  # Select only numerical columns
+correlation_matrix = numerical_df.corr()
 
-# Step 10: Print the cleaned data to check the result
-print(df.head())
+# Visualize correlation matrix using a heatmap
+plt.figure(figsize=(12, 8))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
+plt.title("Correlation Matrix")
+plt.show()
 
-# Step 11: Create a connection to PostgreSQL using SQLAlchemy
-DATABASE_URL = f"postgresql://{db_username}:{db_password}@{db_host}:{db_port}/{db_name}"
+# Step 7: Visualize distributions (Histograms)
+plt.figure(figsize=(14, 8))
+sns.histplot(df['Age'], kde=True, color='blue', label='Age')
+sns.histplot(df['Cholesterol'], kde=True, color='green', label='Cholesterol')
+sns.histplot(df['RestingBP'], kde=True, color='red', label='RestingBP')
+sns.histplot(df['MaxHR'], kde=True, color='purple', label='MaxHR')
+plt.legend()
+plt.title('Distribution of Numerical Features')
+plt.show()
 
-# Step 12: Create SQLAlchemy engine to interact with PostgreSQL
-engine = create_engine(DATABASE_URL)
+# Step 8: Box Plots to visualize distributions and outliers
+plt.figure(figsize=(14, 8))
+sns.boxplot(data=df[['Age', 'Cholesterol', 'RestingBP', 'MaxHR']])
+plt.title('Box Plots for Age, Cholesterol, RestingBP, and MaxHR')
+plt.show()
 
-# Step 13: Write the cleaned DataFrame to the PostgreSQL database
-try:
-    df.to_sql('heart_disease', con=engine, if_exists='replace', index=False)
-    print("Data has been cleaned and imported into PostgreSQL successfully!")
-except Exception as e:
-    print("Error while inserting data into PostgreSQL", e)
+# Step 9: Pairplot (Scatterplot Matrix) for numerical features
+sns.pairplot(df[['Age', 'Cholesterol', 'RestingBP', 'MaxHR', 'HeartDisease']], hue='HeartDisease', palette='coolwarm')
+plt.title('Pairplot of Numerical Features Colored by Heart Disease')
+plt.show()
+
+# Step 10: Bar Plot for categorical variables (Gender, Exercise Angina)
+plt.figure(figsize=(14, 8))
+sns.countplot(x='Sex', hue='HeartDisease', data=df, palette='coolwarm')
+plt.title('Bar Plot of Sex vs Heart Disease')
+plt.show()
+
+# Step 11: Violin Plot for numerical features segmented by Heart Disease
+plt.figure(figsize=(14, 8))
+sns.violinplot(x='HeartDisease', y='Age', data=df, palette='coolwarm')
+plt.title('Violin Plot of Age vs Heart Disease')
+plt.show()
+
+plt.figure(figsize=(14, 8))
+sns.violinplot(x='HeartDisease', y='Cholesterol', data=df, palette='coolwarm')
+plt.title('Violin Plot of Cholesterol vs Heart Disease')
+plt.show()
+
+# Step 12: Count Plot for categorical features like Exercise Angina and RestingECG
+plt.figure(figsize=(14, 8))
+sns.countplot(x='ExerciseAngina', hue='HeartDisease', data=df, palette='coolwarm')
+plt.title('Exercise Angina vs Heart Disease')
+plt.show()
+
+plt.figure(figsize=(14, 8))
+sns.countplot(x='RestingECG', hue='HeartDisease', data=df, palette='coolwarm')
+plt.title('RestingECG vs Heart Disease')
+plt.show()
+
+# Step 13: Count Plot for ST_Slope vs Heart Disease
+plt.figure(figsize=(14, 8))
+sns.countplot(x='ST_Slope', hue='HeartDisease', data=df, palette='coolwarm')
+plt.title('ST Slope vs Heart Disease')
+plt.show()
+
+# Optional: You can add more specific charts for any additional features as needed.
