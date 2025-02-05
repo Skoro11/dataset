@@ -1,0 +1,48 @@
+1. Age
+Meaning: The age of the patient in years.
+Correlation with Heart Disease: Typically, as people age, the likelihood of heart disease increases. So, this variable might have a positive correlation with heart disease.
+
+2. Sex
+Meaning: The gender of the patient.
+
+0: Female
+1: Male
+Correlation with Heart Disease: Sex is a categorical variable, and its correlation with heart disease depends on gender-specific risk factors. Men generally have a higher risk of heart disease at younger ages, but women tend to have a higher risk after menopause. This variable can show how heart disease differs between men and women.
+3. Cholesterol
+Meaning: The cholesterol level of the patient (typically in mg/dL).
+Correlation with Heart Disease: High cholesterol is a major risk factor for heart disease. So, we expect a positive correlation between cholesterol levels and the likelihood of heart disease.
+
+4. RestingBP (Resting Blood Pressure)
+Meaning: The patient's resting blood pressure (in mm Hg).
+Correlation with Heart Disease: High resting blood pressure (hypertension) is a significant risk factor for heart disease. A higher resting blood pressure may correlate positively with the likelihood of heart disease.
+
+5. MaxHR (Maximum Heart Rate Achieved)
+Meaning: The maximum heart rate achieved during exercise (beats per minute).
+Correlation with Heart Disease: Generally, people with heart disease may not be able to achieve high maximum heart rates during exercise. Thus, this variable may have a negative correlation with heart disease, meaning that lower maximum heart rates are linked to a higher likelihood of heart disease.
+
+6. ExerciseAngina
+Meaning: Whether the patient experienced angina (chest pain) during exercise.
+
+1: Yes
+0: No
+Correlation with Heart Disease: Angina is a common symptom of heart disease, so there is likely a positive correlation between this variable and the occurrence of heart disease.
+7. RestingECG (Resting Electrocardiographic Results)
+Meaning: The result of the resting electrocardiogram (ECG) test, which records the electrical activity of the heart.
+
+0: Normal
+1: Having ST-T wave abnormality
+2: Showing probable or definite left ventricular hypertrophy
+Correlation with Heart Disease: Abnormal ECG results are often associated with heart disease, so a positive correlation with heart disease is expected.
+8. ST_Slope (Slope of the peak exercise ST segment)
+Meaning: This measures the slope of the ST segment in the ECG during exercise.
+
+0: Upsloping
+1: Flat
+2: Downsloping
+Correlation with Heart Disease: A downsloping ST segment is typically associated with an increased likelihood of heart disease, so this variable might have a positive correlation with heart disease.
+9. HeartDisease
+Meaning: The target variable indicating whether the patient has heart disease or not.
+
+0: No heart disease
+1: Heart disease present
+Correlation with Heart Disease: This is the target variable itself, so its correlation with heart disease is naturally 1 (perfect correlation).
