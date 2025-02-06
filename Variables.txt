@@ -46,3 +46,6 @@ Meaning: The target variable indicating whether the patient has heart disease or
 0: No heart disease
 1: Heart disease present
 Correlation with Heart Disease: This is the target variable itself, so its correlation with heart disease is naturally 1 (perfect correlation).
+
+
+https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction?resource=download
