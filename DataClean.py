@@ -41,21 +41,21 @@ sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidt
 """ plt.show() """
 
 # Step 7: Visualize distributions (Histograms)
-""" plt.figure(figsize=(18, 12)) """
-""" sns.histplot(df['Age'], kde=True, color='blue', label='Age') """
-""" sns.histplot(df['Cholesterol'], kde=True, color='green', label='Cholesterol') """
-""" sns.histplot(df['RestingBP'], kde=True, color='red', label='RestingBP') """
-""" sns.histplot(df['MaxHR'], kde=True, color='purple', label='MaxHR') """
-""" plt.legend() """
-""" plt.title('Distribution of Numerical Features') """
-""" plt.show() """
+""" plt.figure(figsize=(18, 12))
+sns.histplot(df['Age'], kde=True, color='blue', label='Age')
+sns.histplot(df['Cholesterol'], kde=True, color='green', label='Cholesterol')
+sns.histplot(df['RestingBP'], kde=True, color='red', label='RestingBP')
+sns.histplot(df['MaxHR'], kde=True, color='purple', label='MaxHR')
+plt.legend()
+plt.title('Distribution of Numerical Features')
+plt.show() """
 
 
 
 """ plt.figure(figsize=(14, 8))
-sns.histplot(df['Age'], kde=True, color='blue', label='Age')  """
-""" plt.legend() """
-""" plt.show() """
+sns.histplot(df['Age'], kde=True, color='blue', label='Age') 
+plt.legend()
+plt.show() """
 """ 
 plt.figure(figsize=(14, 8))
 sns.histplot(df['MaxHR'], kde=True, color='purple', label='MaxHR')
@@ -70,57 +70,60 @@ plt.show()
  """
 # Step 8: Box Plots to visualize distributions and outliers
 """ plt.figure(figsize=(14, 8))
-sns.boxplot(data=df[['Age', 'Cholesterol', 'RestingBP', 'MaxHR']]) """
-""" plt.title('Box Plots for Age, Cholesterol, RestingBP, and MaxHR') """
-""" plt.show() """
+sns.boxplot(data=df[['Age', 'Cholesterol', 'RestingBP', 'MaxHR']])
+plt.title('Box Plots for Age, Cholesterol, RestingBP, and MaxHR')
+plt.show() """
 
 # Step 9: Pairplot (Scatterplot Matrix) for numerical features
-""" sns.pairplot(df[['Age', 'Cholesterol', 'RestingBP', 'MaxHR', 'HeartDisease']], hue='HeartDisease', palette='coolwarm') """
-""" plt.title('Pairplot of Numerical Features Colored by Heart Disease') """
-""" plt.show() """
+""" sns.pairplot(df[['Age', 'Cholesterol', 'RestingBP', 'MaxHR', 'HeartDisease']], hue='HeartDisease', palette='coolwarm')
+plt.title('Pairplot of Numerical Features Colored by Heart Disease')
+plt.show() """
+
+
+
 
 # Step 10: Bar Plot for categorical variables (Gender, Exercise Angina)
 """ plt.figure(figsize=(14, 8))
-sns.countplot(x='Sex', hue='HeartDisease', data=df, palette='coolwarm') """
-""" plt.title('Bar Plot of Sex vs Heart Disease') """
-""" plt.show() """
-
+sns.countplot(x='Sex', hue='HeartDisease', data=df, palette='coolwarm')
+plt.title('Bar Plot of Sex vs Heart Disease')
+plt.show()
+ """
 # Step 11: Violin Plot for numerical features segmented by Heart Disease
 """ plt.figure(figsize=(14, 8))
-sns.violinplot(x='HeartDisease', y='Age', data=df, palette='coolwarm') """
-""" plt.title('Violin Plot of Age vs Heart Disease') """
-""" plt.show() """
+sns.violinplot(x='HeartDisease', y='Age', data=df, palette='coolwarm')
+plt.title('Violin Plot of Age vs Heart Disease')
+plt.show() """
 
 """ plt.figure(figsize=(14, 8))
-sns.violinplot(x='HeartDisease', y='Cholesterol', data=df, palette='coolwarm') """
-""" plt.title('Violin Plot of Cholesterol vs Heart Disease') """
-""" plt.show() """
+sns.violinplot(x='HeartDisease', y='Cholesterol', data=df, palette='coolwarm')
+plt.title('Violin Plot of Cholesterol vs Heart Disease')
+plt.show() """
 
 # Step 12: Count Plot for categorical features like Exercise Angina and RestingECG
-plt.figure(figsize=(14, 8))
-sns.countplot(x='ExerciseAngina', hue='HeartDisease', data=df, palette='coolwarm')
-""" plt.title('Exercise Angina vs Heart Disease') """
-""" plt.show()
- """
 """ plt.figure(figsize=(14, 8))
-sns.countplot(x='RestingECG', hue='HeartDisease', data=df, palette='coolwarm') """
-""" plt.title('RestingECG vs Heart Disease') """
-""" plt.show() """
+sns.countplot(x='ExerciseAngina', hue='HeartDisease', data=df, palette='coolwarm')
+plt.title('Exercise Angina vs Heart Disease')
+plt.show() """
+
+""" plt.figure(figsize=(14, 8))
+sns.countplot(x='RestingECG', hue='HeartDisease', data=df, palette='coolwarm')
+plt.title('RestingECG vs Heart Disease')
+plt.show() """
 
 # Step 13: Count Plot for ST_Slope vs Heart Disease
 """ plt.figure(figsize=(14, 8))
-sns.countplot(x='ST_Slope', hue='HeartDisease', data=df, palette='coolwarm') """
-""" plt.title('ST Slope vs Heart Disease') """
-""" plt.show()
- """
+sns.countplot(x='ST_Slope', hue='HeartDisease', data=df, palette='coolwarm')
+plt.title('ST Slope vs Heart Disease')
+plt.show() """
+
 # Step 14: Pie Chart for Heart Disease Distribution
 heart_disease_counts = df['HeartDisease'].value_counts()
 
 # Plotting the pie chart
-plt.figure(figsize=(8, 8))
+""" plt.figure(figsize=(8, 8))
 plt.pie(heart_disease_counts, labels=['No Heart Disease', 'Heart Disease'], autopct='%1.1f%%', colors=['lightblue', 'lightcoral'], startangle=140)
-""" plt.title('Distribution of Heart Disease in the Dataset') """
-plt.show()
+plt.title('Distribution of Heart Disease in the Dataset')
+plt.show() """
 # Optional: You can add more specific charts for any additional features as needed.
 
 # Step 7: Print out the correlation with HeartDisease
